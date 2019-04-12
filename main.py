@@ -42,7 +42,7 @@ def valid_password(password):
     
 EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')    
 def valid_email(email):
-        return email and EMAIL_RE.match(uemail)     
+        return email and EMAIL_RE.match(email)     
          
 class Signup(Handler):
     def get(self):
@@ -67,7 +67,7 @@ class Signup(Handler):
 
         if not valid_email(email):
             params['error_email'] = "That's not a valid email."
-            have_error = True
+            
 
         if  have_error:    
             self.render('signup.html', ** params)
@@ -77,12 +77,11 @@ class Signup(Handler):
 class Welcome(Handler):            
     def get(self):
         username = self.request.get('username')
-        if valid_username(username):
-            self.render('welcome.html', username = username)
-        else:
-            self.rsdirect('/signup')
-            
-app = webapp2.WSGIApplication([('/signup', Signup),
-                               ('/welcome', Welcome)],                            
+        n = username
+        if n:
+            self.render('welcome.html', username = n)
+                    
+app = webapp2.WSGIApplication([('/', Signup),
+                               ('/welcome?username=', welcome)],                            
                             debug=True)  
 
